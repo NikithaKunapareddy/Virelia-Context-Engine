@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Animation Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: #0f0f23;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Animated Background Bubbles */
+        .bubble-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                linear-gradient(45deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f0f23 100%),
+                radial-gradient(circle at 20% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(155, 89, 182, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 90%, rgba(241, 196, 15, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 15s infinite ease-in-out;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                background-position: 0% 0%, 20% 20%, 80% 80%, 40% 90%;
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                background-position: 25% 25%, 40% 10%, 60% 90%, 70% 70%;
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                background-position: 50% 50%, 80% 30%, 20% 60%, 90% 40%;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                background-position: 75% 25%, 10% 80%, 90% 10%, 30% 80%;
+                filter: hue-rotate(270deg);
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp 8s infinite linear;
+            opacity: 1 !important;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+            z-index: 1;
+        }
+
+        /* Static bubbles with bright colors */
+        .bubble:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 5%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 123, 255, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
+        }
+
+        .bubble:nth-child(2) {
+            width: 45px;
+            height: 45px;
+            left: 15%;
+            animation-duration: 8s;
+            animation-delay: 1s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(46, 204, 113, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.8);
+        }
+
+        .bubble:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            left: 30%;
+            animation-duration: 15s;
+            animation-delay: 2s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(230, 126, 34, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(230, 126, 34, 0.8);
+        }
+
+        .bubble:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            left: 50%;
+            animation-duration: 10s;
+            animation-delay: 0.5s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(155, 89, 182, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.8);
+        }
+
+        .bubble:nth-child(5) {
+            width: 35px;
+            height: 35px;
+            left: 65%;
+            animation-duration: 9s;
+            animation-delay: 1.5s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(231, 76, 60, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(231, 76, 60, 0.8);
+        }
+
+        .bubble:nth-child(6) {
+            width: 90px;
+            height: 90px;
+            left: 80%;
+            animation-duration: 13s;
+            animation-delay: 3s;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(241, 196, 15, 0.8) 50%, transparent 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.8);
+        }
+
+        /* Floating animation */
+        @keyframes floatUp {
+            0% {
+                bottom: -150px;
+                transform: translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.3;
+            }
+            15% {
+                opacity: 1;
+                transform: translateX(-10px) rotate(45deg) scale(0.8);
+            }
+            30% {
+                opacity: 1;
+                transform: translateX(-25px) rotate(90deg) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-40px) rotate(180deg) scale(1.1);
+            }
+            70% {
+                opacity: 0.9;
+                transform: translateX(-60px) rotate(270deg) scale(1);
+            }
+            85% {
+                opacity: 0.6;
+            }
+            100% {
+                bottom: calc(100vh + 100px);
+                transform: translateX(-80px) rotate(360deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Test content */
+        .content {
+            position: relative;
+            z-index: 10;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .test-bubble {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp 10s infinite linear;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(0, 123, 255, 0.6) 50%, transparent 100%);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
+            opacity: 1;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Bubbles -->
+    <div class="bubble-background">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <div class="content">
+        <h1>🫧 Bubble Animation Test</h1>
+        <p>This page demonstrates the animated bubble background effects.</p>
+        <p>You should see colorful bubbles floating up from the bottom of the screen!</p>
+        
+        <button class="test-button" onclick="createTestBubble()">Create Test Bubble</button>
+        <button class="test-button" onclick="createBubbleBurst()">Create Bubble Burst</button>
+        
+        <div id="bubble-count" style="margin-top: 20px;">Dynamic bubbles created: 0</div>
+    </div>
+
+    <script>
+        let bubbleCount = 0;
+
+        function createTestBubble() {
+            const bubbleContainer = document.querySelector('.bubble-background');
+            const bubble = document.createElement('div');
+            bubble.className = 'test-bubble';
+            
+            // Random properties
+            const size = 40 + Math.random() * 60;
+            const left = Math.random() * 90;
+            const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1', '#20c997'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = left + '%';
+            bubble.style.background = `radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, ${color}80 50%, transparent 100%)`;
+            bubble.style.boxShadow = `0 0 30px ${color}80`;
+            
+            bubbleContainer.appendChild(bubble);
+            bubbleCount++;
+            document.getElementById('bubble-count').textContent = `Dynamic bubbles created: ${bubbleCount}`;
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (bubbleContainer.contains(bubble)) {
+                    bubbleContainer.removeChild(bubble);
+                }
+            }, 10000);
+        }
+
+        function createBubbleBurst() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createTestBubble();
+                }, i * 200);
+            }
+        }
+
+        // Auto-generate bubbles
+        setInterval(() => {
+            createTestBubble();
+        }, 3000);
+        
+        console.log('Bubble test page loaded. You should see bubbles floating up!');
+    </script>
+</body>
+</html>

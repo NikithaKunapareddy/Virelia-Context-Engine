@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Agentic RAG{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-cog"></i> System Administration</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <!-- System Status -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-heartbeat"></i> System Status</h5>
+            </div>
+            <div class="card-body">
+                <div id="systemStatus">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading system status...</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="refreshStatus()">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knowledge Management -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-database"></i> Knowledge Management</h5>
+            </div>
+            <div class="card-body">
+                <form id="addKnowledgeForm">
+                    <div class="mb-3">
+                        <label for="docId" class="form-label">Document ID</label>
+                        <input type="text" class="form-control" id="docId" placeholder="Auto-generated if empty">
+                    </div>
+                    <div class="mb-3">
+                        <label for="docContent" class="form-label">Content</label>
+                        <textarea class="form-control" id="docContent" rows="4" 
+                                  placeholder="Enter document content..." required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="docTopic" class="form-label">Topic</label>
+                        <input type="text" class="form-control" id="docTopic" placeholder="e.g., AI, programming">
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Add Document
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Search Knowledge Base -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-search"></i> Search Knowledge Base</h5>
+            </div>
+            <div class="card-body">
+                <form id="searchForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="searchQuery" 
+                               placeholder="Enter search query..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topK" class="form-label">Number of Results</label>
+                        <input type="number" class="form-control" id="topK" value="5" min="1" max="20">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
+                
+                <div id="searchResults" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Logs -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div id="activityLog" style="height: 300px; overflow-y: auto;">
+                    <div class="text-muted">No recent activity</div>
+                </div>
+                <button class="btn btn-outline-secondary btn-sm mt-2" onclick="clearActivityLog()">
+                    <i class="fas fa-trash"></i> Clear Log
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Knowledge Base</h6>
+                        <h4 id="knowledgeCount">-</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-database fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Active Users</h6>
+                        <h4 id="activeUsers">-</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Total Messages</h6>
+                        <h4 id="totalMessages">-</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-comments fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Memory Usage</h6>
+                        <h4 id="memoryUsage">-</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-memory fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Admin functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeAdmin();
+        refreshStatus();
+        
+        // Auto-refresh status every 30 seconds
+        setInterval(refreshStatus, 30000);
+    });
+</script>
+{% endblock %}

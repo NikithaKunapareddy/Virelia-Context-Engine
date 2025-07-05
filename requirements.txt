@@ -1,0 +1,24 @@
+# Core dependencies
+setuptools>=65.0.0
+wheel>=0.37.0
+
+# Flask and web framework
+Flask==2.3.3
+Flask-SocketIO==5.3.6
+python-socketio==5.9.0
+eventlet==0.33.3
+
+# AI and ML libraries
+sentence-transformers==2.2.2
+google-generativeai==0.3.2
+numpy==1.24.3
+
+# Vector database
+faiss-cpu==1.7.4
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0
+
+# Production server
+gunicorn==21.2.0
